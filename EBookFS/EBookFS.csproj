@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Ardalis.Result" Version="7.0.0" />
+		<PackageReference Include="Ardalis.Result.AspNetCore" Version="7.0.0" />
+		<PackageReference Include="FastEndpoints" Version="5.10.0" />
+		<PackageReference Include="FastEndpoints.Swagger" Version="5.10.0" />
+		<PackageReference Include="Mapster" Version="7.3.0" />
+	</ItemGroup>
+	
+</Project>

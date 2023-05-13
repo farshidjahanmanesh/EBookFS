@@ -20,6 +20,7 @@ namespace EBookFS.Endpoints.Book
         {
             Get("/book/list");
             AllowAnonymous();
+            ResponseCache(60);
         }
         public GetBookListEndpoint(IBookRepository bookRepository)
         {

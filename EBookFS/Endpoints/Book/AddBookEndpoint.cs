@@ -18,7 +18,6 @@ namespace EBookFS.Endpoints.Book
         public override void Configure()
         {
             Post("/book/Add");
-            AllowAnonymous();
         }
         public AddBookEndpoint(IBookRepository bookRepository)
         {

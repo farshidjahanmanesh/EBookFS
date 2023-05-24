@@ -92,6 +92,24 @@ namespace EBookFS.tests.UnitTests.Repositories
             result.Should().BeNull();
         }
 
+        [Fact]
+        public async Task GetAll_OnSuccess_ReturnOk()
+        {
+            var context = ContextFactory.DBContextFactoryHelper();
+            context.Books.Add(new Book()
+            {
+                Id = 1,
+                Author = "",
+                Description = "",
+                Title = ""
+            });
+            context.SaveChanges();
+
+            var repository = new BookRepository(context);
+            var result = await repository.GetAll();
+            result.Should().NotBeNull();
+            result.Count.Should().Be(1);
+        }
 
     }
 }

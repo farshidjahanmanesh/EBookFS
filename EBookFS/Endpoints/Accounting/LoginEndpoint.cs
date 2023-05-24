@@ -15,6 +15,11 @@ namespace EBookFS.Endpoints.Accounting
             public string UserName { get; set; }
             public string Password { get; set; }
         }
+        public class LoginResponseDto
+        {
+            public string UserName { get; set; }
+            public string Token { get; set; }
+        }
         public override void Configure()
         {
             Post("/accounting/login");
@@ -36,15 +41,15 @@ namespace EBookFS.Endpoints.Accounting
                         u.Claims.Add(new Claim(type: "username", value: req.UserName));
                     });
 
-                await SendAsync(new
+                await SendAsync(new LoginResponseDto()
                 {
-                    Username = req.UserName,
+                    UserName = req.UserName,
                     Token = jwtToken
                 });
             }
             else
             {
-                ThrowError("The supplied credentials are invalid!");
+                throw new UnauthorizedAccessException("auth failed");
             }
         }
     }

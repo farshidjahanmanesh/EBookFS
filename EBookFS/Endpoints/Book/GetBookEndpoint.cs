@@ -30,7 +30,8 @@ namespace EBookFS.Endpoints.Book
 
         public override async Task<BookResponseDto> ExecuteAsync(BookRequestDto req, CancellationToken ct)
         {
-
+            if (!await bookRepository.IsExist(req.Id))
+                throw new ArgumentException("ورودی ارسالی نامعتبر است");
             return (await bookRepository.Get(req.Id)).Adapt<BookResponseDto>();
         }
     }

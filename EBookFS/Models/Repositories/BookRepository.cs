@@ -1,34 +1,43 @@
 ﻿using EBookFS.Models.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace EBookFS.Models.Repositories
 {
-    public class StaticBookRepository : IBookRepository
+    public class BookRepository : IBookRepository
     {
-        private static List<Book> _books;
-        static StaticBookRepository()
+
+        private BookDBContext _context;
+        public BookRepository(BookDBContext context)
         {
-            _books = new List<Book>();
+            _context = context;
         }
-        public Task Add(Book book)
+        public async Task Add(Book book)
         {
-            book.Id = _books.OrderBy(c => c.Id).LastOrDefault()?.Id + 1 ?? 1;
-            _books.Add(book);
-            return Task.FromResult(book);
+            if (book == null)
+                throw new ArgumentNullException("book is null");
+            await _context.Books.AddAsync(book);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Book> Get(int id)
+        public async Task<Book> Get(int id)
         {
-            return Task.FromResult(_books.FirstOrDefault(c => c.Id == id));
+            return await _context.Books.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public Task<List<Book>> GetAll()
+        public async Task<List<Book>> GetAll()
         {
-            return Task.FromResult(_books.ToList());
+            return await _context.Books.ToListAsync();
+        }
+
+        public async Task<bool> IsExist(int id)
+        {
+            return await _context.Books.AnyAsync(c => c.Id == id);
         }
 
         public void Remove(Book book)
         {
-            _books.Remove(book);
+            _context.Books.Remove(book);
+            _context.SaveChanges();
         }
     }
 }
